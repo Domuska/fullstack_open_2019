@@ -9,10 +9,18 @@ const Header = (props) => {
   )
 }
 
+const Part = (props) => {
+  return (
+    <>
+      <p>{props.text} {props.excercises}</p>
+    </>
+  )
+}
+
 const Content = (props) => {
   return(
     <>
-      <p>{props.text} {props.excercises}</p>
+      <Part text={props.text} excercises={props.excercises}></Part>
     </>
   )
 }
@@ -26,13 +34,33 @@ const Total = (props) => {
 }
 
 const App = () => {
-  const course = 'Half Stack application development'
+  const course = 'Half Stack application development';
+  const content = [ 
+    {
+      title: 'Fundamentals of React',
+      excercises: 10,
+    },
+    {
+      title: 'Using props to pass data',
+      excercises: 7,
+    },
+    {
+      title: 'State of a component',
+      excercises: 14,
+    },
+  ];
+  /*
   const part1 = 'Fundamentals of React'
   const exercises1 = 10
   const part2 = 'Using props to pass data'
   const exercises2 = 7
   const part3 = 'State of a component'
   const exercises3 = 14
+  */
+ // todo jatka tästä niin että Content komponentille menee taulu, propsina,
+ // ja siellä hardkoodattuna otetaan vaan taulusta elementit 0, 1, 2 ja niitten
+ // title & excercises passataan part komponentille
+
 
   return (
     <div>
