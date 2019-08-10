@@ -9,6 +9,29 @@ const App = () => {
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
 
+  const calcTotal = () => {
+    return good + neutral + bad;
+  }
+
+  const calcAverage = () => {
+    const total = calcTotal();
+    if (total > 0) {
+      const badScore = bad * -1;
+      const goodScore = good;
+      // neutral votes are worth 0
+      return (goodScore + badScore) / total;
+    }
+    return 'No votes registered';
+  }
+
+  const calcPositivePercentage = () => {
+    const total = calcTotal();
+    if (total > 0) {
+      return `${good / total * 100}%`;
+    }
+    return 'No votes registered';
+  }
+
   const onClickFactory = (type) => {
     if (type === 'good') return () => setGood(good + 1);
     if (type === 'neutral') return () => setNeutral(neutral + 1);
@@ -28,6 +51,10 @@ const App = () => {
       <p>Good votes: {good}</p>
       <p>Good votes: {neutral}</p>
       <p>Good votes: {bad}</p>
+      <br></br>
+      <p>Votes total: {calcTotal()}</p>
+      <p>Average score: {calcAverage()}</p>
+      <p>Amount positive: {calcPositivePercentage()}</p>
     </div>
   )
 };
