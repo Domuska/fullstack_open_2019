@@ -32,20 +32,29 @@ const Statistics = (props) => {
     return (
       <>
         <h2>Results</h2>
-        <StatsRow text="Good:" value={props.votes.good}></StatsRow>
-        <StatsRow text="Neutral:" value={props.votes.neutral}></StatsRow>
-        <StatsRow text="Bad:" value={props.votes.bad}></StatsRow>
-        <br></br>
-        <StatsRow text="Votes total:" value={calcTotal()}></StatsRow>
-        <StatsRow text="Average score:" value={calcAverage()}></StatsRow>
-        <StatsRow text="Amount positive:" value={calcPositivePercentage()}></StatsRow>
+        <table>
+          <tbody>
+              <StatsRow text="Good:" value={props.votes.good}></StatsRow>
+              <StatsRow text="Neutral:" value={props.votes.neutral}></StatsRow>
+              <StatsRow text="Bad:" value={props.votes.bad}></StatsRow>
+              <StatsRow text="Votes total:" value={calcTotal()}></StatsRow>
+              <StatsRow text="Average score:" value={calcAverage()}></StatsRow>
+              <StatsRow text="Amount positive:" value={calcPositivePercentage()}></StatsRow>
+          </tbody>
+        </table>
       </>
     )
   }
   return null; 
 };
 
-const StatsRow = (props) => <p>{props.text} {props.value}</p>
+const StatsRow = (props) => {
+  return (
+    <tr>
+      <td>{props.text}</td><td>{props.value}</td>
+    </tr>
+  )
+}
 
 const App = () => {
   const [good, setGood] = useState(0)
