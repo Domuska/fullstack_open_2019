@@ -1,0 +1,17 @@
+selain->palvelin: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note body: {note: "stuff is amazing"}
+palvelin-->selain: 302
+selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/notes
+palvelin-->selain: HTML koodi
+selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/main.css
+palvelin-->selain: main.css
+selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/main.js
+palvelin-->selain: main.js
+note over selain:
+main.js:n xhttp.open("GET", "/data.json", true)
+rivin takia tehd‰‰n pyyntˆ https://fullstack-exampleapp.herokuapp.com/data.json
+end note
+selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/data.json
+palvelin-->selain: JSON data
+note over selain:
+piirret‰‰n muistiinpanot
+end note

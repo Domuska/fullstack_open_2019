@@ -1,0 +1,16 @@
+note over selain:
+Save nappia klikatessa
+window.onloadiin määritellyssä funktiossa
+määritellyn form.onsubmit
+lisää paikalliseen notejen tauluun
+noten, jolle selain luo myös daten.
+redrawNotes() formin callbackissa
+johtaa elementin lisäykseen DOMiin
+end note
+selain->palvelin: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note_spa body: {...}
+palvelin-->selain: JSON response: {message: "note created"}
+note over selain:
+sendToServer funktion onreadystatechangeen laitettava
+funktio tarkistaa statuskoodin, jos se ja 
+readyState oikeat tulostetaan konsoliin responseText
+end note

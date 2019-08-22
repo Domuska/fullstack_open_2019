@@ -1,0 +1,25 @@
+selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/spa
+palvelin-->selain: HTML-koodi
+note over selain:
+html dokumentissa oleva <link>
+ja <script> johtavat css:n &
+js:n lataukseen palvelimelta
+end note
+selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/main.css
+palvelin-->selain: main.css
+selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/spa.js
+palvelin-->selain: spa.js
+note over selain:
+taas, js koodin seurauksena
+pyyntö notejen hakemiseen
+end note
+selain->palvelin: HTTP GET https://fullstack-exampleapp.herokuapp.com/data.json
+palvelin-->selain: data.json
+note over selain
+xhttp.onreadystatechange callback funktion
+notes = JSON.parse(this.responseText)
+johtaa siihen että notes
+taulu korvataan palvelimelta tulevalla
+JSON datalla, jonka jälkeen
+redrawNotes() piirtää piirtää notet ruudulle
+end note
