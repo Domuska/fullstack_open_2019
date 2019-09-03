@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
 
@@ -10,16 +9,15 @@ import Content from './components/Content';
 const App = () => {
 
   const [ countries, setCountries ] = useState([]);
-  const [ filteredCountries, setFilteredCountries ] = useState([]);
+  const [ visibleCountries, setVisibleCountries ] = useState([]);
   const [ searchTerm, setSearchTerm ] = useState('');
 
   useEffect(() => {
     axios
       .get('https://restcountries.eu/rest/v2/all')
       .then(res => {
-        console.log('got countries res:', res.data);
         setCountries(res.data);
-        setFilteredCountries(res.data);
+        setVisibleCountries(res.data);
       })
       .catch(err => {
         console.log('error while fetching countries:', err);
@@ -36,16 +34,22 @@ const App = () => {
     console.log('onsearchchagnge, value:', newSearchTerm);
     setSearchTerm(newSearchTerm);
     if (newSearchTerm !== '') {
-      setFilteredCountries(countries.filter(country => countryPassesFilter(country.name, newSearchTerm)));
+      setVisibleCountries(countries.filter(country => countryPassesFilter(country.name, newSearchTerm)));
     } else {
-      setFilteredCountries(countries.slice());
+      setVisibleCountries(countries.slice());
     }
   }
+
+  const onShowCountryClick = (numericCode) => {
+    console.log('onShowCountryClick', numericCode);
+    
+    setVisibleCountries(countries.filter(country => country.numericCode === numericCode));
+  }; 
 
   return(
     <div>  
       <Search onSearchChange={onSearchChange} searchTerm={searchTerm}></Search>
-      <Content countries={filteredCountries}></Content>
+      <Content countries={visibleCountries} onShowCountryClick={onShowCountryClick}></Content>
     </div>
   )
 };

@@ -4,8 +4,8 @@ import CountryList from './CountryList';
 import Country from './Country';
 
 
-const Content = ({countries}) => {
-
+const Content = ({countries, onShowCountryClick}) => {
+  // figure out what we should be showing
   if (countries.length > 10) {
     return (
       <p>Too many countries, please make your filter more specific</p>
@@ -17,7 +17,7 @@ const Content = ({countries}) => {
   }
 
   return (
-    <CountryList countries={countries}>
+    <CountryList countries={countries} onShowCountryClick={onShowCountryClick}>
     </CountryList>
   )
 }
