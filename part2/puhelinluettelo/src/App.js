@@ -4,12 +4,14 @@ import services from './services';
 import Filter from './components/Filter';
 import PersonForm from './components/PersonForm';
 import PhoneBookEntries from './components/PhoneBookEntries';
+import InfoBox from './components/InfoBox';
 
 const App = () => {
   const [ persons, setPersons ] = useState([]);
   const [ newName, setNewName ] = useState('');
   const [ newNumber, setNewNumber ] = useState('');
   const [ searchTerm, setSearchTerm ] = useState('');
+  const [ info, setInfo ] = useState({text: null, isError: false});
 
   const [ filteredPersons, setFilteredPersons] = useState([]);
 
@@ -51,6 +53,14 @@ const App = () => {
     }
   }
 
+  // helper for interacting with the info box object
+  const setInfoBox = (text, isError) => {
+    setInfo({text, isError});
+    setTimeout(() => {
+      setInfo({text: null})
+    }, 5000)
+  }
+
   const addPersonClickHandler = (event) => {
     event.preventDefault();
 
@@ -66,10 +76,18 @@ const App = () => {
         .then(responsePerson => {
           setPersons(persons.map(p => p.id !== found.id ? p : responsePerson));
           setFilteredPersons(filteredPersons.map(p => p.id !== found.id ? p : responsePerson));
+          setInfoBox(`Updated person ${responsePerson.name}`, false)
         })
         .catch(err => {
-          alert('Error while updating phone number');
-          console.error(err);
+          if (err.response.status === 404) {
+            // remove the person from lists
+            setPersons(persons.filter(p => p.id !== found.id));
+            setFilteredPersons(persons.filter(p => p.id !== found.id));
+            setInfoBox(`Failed to update person ${found.name} number, person not found on server`, true);
+          } else {
+            console.error(err);
+            setInfoBox(`Failed to update person ${found.name} number, unknown error`, true);
+          }
         });
       }
 
@@ -81,6 +99,7 @@ const App = () => {
         .create(newPerson)
         .then(person => {
           setPersons(persons.concat(person));
+          setInfoBox(`Added person ${person.name}`, false)
           // check if the new person passes the filter that might be set
           if (passesFilter(person.name, searchTerm)) {
             setFilteredPersons(filteredPersons.concat(person));
@@ -102,9 +121,9 @@ const App = () => {
       services
       .deletePerson(person.id)
       .then(res => {
-        console.log(res);
         setPersons(persons.filter(p => p.id !== person.id));
         setFilteredPersons(filteredPersons.filter(p => p.id !== person.id));
+        setInfoBox(`Removed person ${person.name}`, false);
       })
       .catch(err => {
         alert('Error while deleting person');
@@ -115,7 +134,11 @@ const App = () => {
 
   return (
     <div>
+
       <h2>Phonebook</h2>
+
+      <InfoBox text={info.text} isError={info.isError}></InfoBox>
+
       <h3>Search</h3>
       <Filter
         searchTerm={searchTerm}
