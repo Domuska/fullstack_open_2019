@@ -8,10 +8,21 @@ const Entry = ({ name, number }) => {
   )
 };
 
-const PhoneBookEntries = ({ people }) => {
+const PhoneBookEntries = ({ people, deletePersonClickHandler }) => {
   const getRows = () => { 
     return people.map(person => 
-      <Entry number={person.number} name={person.name} key={person.name}></Entry>
+      <div key={person.id}>
+        <Entry 
+          number={person.number} 
+          name={person.name} 
+        ></Entry>
+
+        <button 
+          onClick={() => deletePersonClickHandler(person)}>
+          delete
+        </button>
+
+      </div>
     );
   };
   
